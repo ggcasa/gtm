@@ -32,6 +32,7 @@ var db = &TaskStore{
 	tasks: map[string][]Task{
 		"operator_gg": {
 			{ID: "1", Operator: "operator_gg", Location: "Zona C - Raft 14", Action: "Pregătire palet descărcare #4402", Status: "În lucru"},
+			{ID: "2", Operator: "operator_gg", Location: "Zona L - Raft 4", Action: "Pregătire palet descărcare #6502", Status: "Expediat"},
 		},
 		"operator_ziggy": {},
 	},
