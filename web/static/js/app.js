@@ -99,3 +99,74 @@ document.addEventListener('DOMContentLoaded', () => {
         routeUser(savedUser); // Îl logăm direct fără să mai vadă ecranul de login
     }
 });
+
+function toggleA11yMenu() {
+    document.getElementById('a11y-menu-content').classList.toggle('show');
+}
+
+// Închidem meniul dacă utilizatorul dă click în afara lui
+window.addEventListener('click', (event) => {
+    if (!event.target.matches('.a11y-trigger-btn')) {
+        const dropdown = document.getElementById('a11y-menu-content');
+        if (dropdown && dropdown.classList.contains('show')) {
+            dropdown.classList.remove('show');
+        }
+    }
+});
+
+// ============================================================================
+// 5. SUPORT MULTILANGUAGE (i18n)
+// ============================================================================
+
+const translations = {
+    ro: {
+        login_title: "Autentificare GTM",
+        login_label: "Utilizator / Cod Pontaj:",
+        login_btn: "Intră în cont",
+        task_alert: "⚠️ Task Nou de la Birou",
+        location: "Locație:",
+        action: "Acțiune:",
+        btn_finish: "MARCHEAZĂ CA FINALIZAT",
+        logout: "Ieșire",
+        panel_field: "Panau Teren:",
+        panel_manager: "Consolă Management:",
+        menu_tasks: "📊 Alocare Taskuri",
+        menu_fleet: "🚚 Monitorizare Flotă",
+        menu_clock: "⏱️ Pontaj Operatori"
+    },
+    en: {
+        login_title: "GTM Authentication",
+        login_label: "User / Clock-in Code:",
+        login_btn: "Sign In",
+        task_alert: "⚠️ New Task from Office",
+        location: "Location:",
+        action: "Action:",
+        btn_finish: "MARK AS COMPLETED",
+        logout: "Logout",
+        panel_field: "Field Panel:",
+        panel_manager: "Management Console:",
+        menu_tasks: "📊 Task Allocation",
+        menu_fleet: "🚚 Fleet Monitoring",
+        menu_clock: "⏱️ Operator Clock-in"
+    }
+};
+
+// Funcția care aplică traducerile pe elementele cu atributul data-i18n
+function applyLanguage(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+    localStorage.setItem('gtm_lang', lang);
+}
+
+// Funcția apelată din meniul ⚙️
+function changeLanguage(lang) {
+    applyLanguage(lang);
+}
+
+// Verificăm dacă există o limbă salvată, altfel punem implicit Română ('ro')
+    const savedLang = localStorage.getItem('gtm_lang') || 'ro';
+    applyLanguage(savedLang);
