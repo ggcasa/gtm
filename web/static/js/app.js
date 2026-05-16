@@ -1,9 +1,19 @@
 // ============================================================================
 // 5. INIȚIALIZARE GENERALĂ ȘI SERVICE WORKER
 // ============================================================================
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Verificăm imediat dacă omul este deja logat (persistență)
+    if (typeof checkExistingSession === 'function') {
+        checkExistingSession();
+    }
+    
+    // 2. Înregistrarea Service Worker-ului tău (codul existent)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW Înregistrat cu succes!'))
+            .catch(err => console.error('Eroare SW:', err));
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     // Încărcăm preferințele salvate

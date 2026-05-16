@@ -2,38 +2,52 @@ package server
 
 import "sync"
 
-// Task definește structura unui ordin logistic în parcul de depozite
+// User definește identitatea și rolul în sistem
+type User struct {
+	Username string `json:"username"`
+	Role     string `json:"role"` // "operator" sau "manager"
+}
+
 type Task struct {
 	ID       string `json:"id"`
-	Operator string `json:"operator"` // Cărei identități îi aparține (ex: operator_gg)
-	Location string `json:"location"` // Locația fizică (ex: Zona C - Raft 14)
-	Action   string `json:"action"`   // Ce are de făcut (ex: Pregătire palet #4402)
-	Status   string `json:"status"`   // "În lucru" sau "Finalizat"
+	Operator string `json:"operator"`
+	Location string `json:"location"`
+	Action   string `json:"action"`
+	Status   string `json:"status"`
 }
 
-// TaskStore administrează baza noastră de date direct în RAM, protejată la concurență
 type TaskStore struct {
 	sync.RWMutex
-	tasks map[string][]Task // Mapăm colecții de task-uri după numele operatorului
+	users map[string]User
+	tasks map[string][]Task
 }
 
-// Instanțiem magazia noastră globală cu datele de test native
+// Inițializăm baza de date din RAM cu roluri clare
 var db = &TaskStore{
+	users: map[string]User{
+		"operator_gg":    {Username: "operator_gg", Role: "operator"},
+		"operator_ziggy": {Username: "operator_ziggy", Role: "operator"},
+		"manager_1":      {Username: "manager_1", Role: "manager"},
+	},
 	tasks: map[string][]Task{
 		"operator_gg": {
 			{ID: "1", Operator: "operator_gg", Location: "Zona C - Raft 14", Action: "Pregătire palet descărcare #4402", Status: "În lucru"},
 		},
-		"operator_ion": {
-			{ID: "2", Operator: "operator_ion", Location: "Zona A - Poarta 2", Action: "Verificare sigiliu camion BT-99-LOG", Status: "În lucru"},
-		},
+		"operator_ziggy": {},
 	},
 }
 
-// GetTasksForOperator extrage în siguranță task-urile unui operator din RAM (Citire)
+// GetUser verifică dacă utilizatorul există și îi întoarce profilul (inclusiv rolul)
+func (store *TaskStore) GetUser(username string) (User, bool) {
+	store.RLock()
+	defer store.RUnlock()
+	user, exista := store.users[username]
+	return user, exista
+}
+
 func (store *TaskStore) GetTasksForOperator(operator string) []Task {
 	store.RLock()
 	defer store.RUnlock()
-
 	operatorTasks, exista := store.tasks[operator]
 	if !exista {
 		return []Task{}
@@ -41,17 +55,13 @@ func (store *TaskStore) GetTasksForOperator(operator string) []Task {
 	return operatorTasks
 }
 
-// CompleteTask schimbă statusul unui task în "Finalizat" direct în memorie (Scriere)
 func (store *TaskStore) CompleteTask(operator string, taskID string) bool {
 	store.Lock()
 	defer store.Unlock()
-
 	tasks, exista := store.tasks[operator]
 	if !exista {
 		return false
 	}
-
-	// Căutăm task-ul corect după ID și îi schimbăm statusul în listă
 	for i, t := range tasks {
 		if t.ID == taskID {
 			store.tasks[operator][i].Status = "Finalizat"

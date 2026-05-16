@@ -37,6 +37,9 @@ func (s *Server) Start() error {
 
 	mux.HandleFunc("/api/complete", s.handleAPIComplete)
 
+	// În interiorul funcției (s *Server) Start() error:
+	mux.HandleFunc("/api/login", s.handleAPILogin) // <-- Adaugă această linie sub celelalte API-uri
+
 	log.Printf("Serverul gtm a pornit pe http://localhost%s\n", s.listenAddr)
 	return http.ListenAndServe(s.listenAddr, mux)
 }

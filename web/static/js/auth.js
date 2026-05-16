@@ -26,13 +26,29 @@ function handleLogin() {
     routeUser(userVal);
 }
 
-function logout() {
-    localStorage.removeItem('gtm_user');
-    document.getElementById('operator-screen').classList.remove('active');
-    document.getElementById('manager-screen').classList.remove('active');
-    document.getElementById('login-screen').classList.add('active');
-    document.getElementById('username').value = '';
+// Verifică automat dacă utilizatorul are deja o sesiune activă pe acest dispozitiv
+function checkExistingSession() {
+	const savedUser = localStorage.getItem('username');
+	const savedRole = localStorage.getItem('role');
+
+	if (savedUser && savedRole) {
+		// Dacă avem sesiune, sărim direct peste ecranul de login
+		showScreenByRole(savedRole, savedUser);
+	}
 }
+
+// Modificăm funcția de logout să șteargă TOT corect din memorie
+function logout() {
+	localStorage.removeItem('username');
+	localStorage.removeItem('role');
+	
+	// Ascundem ecranele și readucem login-ul în prim-plan
+	document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+	document.getElementById('login-screen').classList.add('active');
+	document.getElementById('username').value = '';
+}
+
+
 
 // ============================================================================
 // 4. LOGICA DE BUSINESS (API Task-uri din Go RAM)
@@ -77,3 +93,41 @@ function completeCurrentTask(taskID, username) {
         })
         .catch(err => console.error("Eroare la finalizare:", err));
 }
+
+function handleLogin() {
+    const usernameInput = document.getElementById('username').value.trim();
+    if (!usernameInput) return alert('Introduceți utilizatorul!');
+
+    // Întrebăm backend-ul securizat din Go cine este acest utilizator
+    fetch(`/api/login?user=${usernameInput}`, { method: 'POST' })
+        .then(response => {
+            if (!response.ok) throw new Error('Utilizator sau cod incorect');
+            return response.json();
+        })
+        .then(user => {
+            // Salvăm sesiunea oficială primită de la server
+            localStorage.setItem('username', user.username);
+            localStorage.setItem('role', user.role);
+
+            // Redirecționăm dinamic în funcție de rolul trimis de Go
+            showScreenByRole(user.role, user.username);
+        })
+        .catch(err => alert(err.message));
+}
+
+// Funcție centralizată de rutare pe ecrane în același frontend
+function showScreenByRole(role, username) {
+    // Ascundem toate ecranele primare
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+
+    if (role === 'operator') {
+        document.getElementById('op-name').textContent = username;
+        document.getElementById('operator-screen').classList.add('active');
+        loadOperatorTasks(username); // Încarcă task-urile din RAM Go
+    } else if (role === 'manager') {
+        document.getElementById('mgr-name').textContent = username;
+        document.getElementById('manager-screen').classList.add('active');
+        // Aici se poate apela ulterior loadManagerDashboard()
+    }
+}
+
