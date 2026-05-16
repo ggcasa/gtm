@@ -1,12 +1,18 @@
-/* Ascundem toate ecranele în mod implicit */
+/* ============================================================================
+   0. MANAGEMENTUL ECRANELOR (Ascundere/Afișare strictă)
+   ============================================================================ */
+
+/* Ascundem toate ecranele implicit */
 .screen {
     display: none !important;
 }
 
-/* Afișăm doar ecranul care are clasa active */
+/* Afișăm DOAR ecranul care are și clasa 'active' */
 .screen.active {
     display: block !important;
-}/* ============================================================================
+}
+
+/* ============================================================================
    1. CONFIGURARE TEME ȘI VARIABILE (Light, Dark, High-Contrast)
    ============================================================================ */
 
@@ -65,6 +71,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative; /* Necesar pentru poziționarea absolută a dropdown-ului */
 }
 
 .app-container {
@@ -78,21 +85,79 @@ h1, h2, h3 {
 }
 
 /* ============================================================================
-   3. MANAGEMENTUL ECRANELOR (Ascundere/Afișare strictă)
+   3. NOUL MENIU PLUTITOR COMPACT (Dropdown Setări ⚙️)
    ============================================================================ */
 
-/* Ascundem toate ecranele implicit */
-.screen {
-    display: none !important;
+/* Containerul fixat în dreapta sus */
+.a11y-dropdown {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
 }
 
-/* Afișăm DOAR ecranul care are și clasa 'active' */
-.screen.active {
-    display: block !important;
+/* Butonul rotund de declanșare */
+.a11y-trigger-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+
+.a11y-trigger-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Conținutul meniului (ascuns implicit) */
+.a11y-menu-content {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: var(--card-bg);
+    min-width: 180px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    border: 1px solid var(--primary-color);
+    overflow: hidden;
+}
+
+/* Afișarea meniului când are clasa 'show' */
+.a11y-menu-content.show {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Butoanele din interiorul dropdown-ului */
+.a11y-menu-content button {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 12px 16px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.a11y-menu-content button:hover {
+    background: var(--primary-color);
+    color: #ffffff;
 }
 
 /* ============================================================================
-   4. COMPONENTE COMUNE (Carduri, Butoane Accesibilitate, Formulare)
+   4. COMPONENTE COMUNE (Carduri, Formulare, Butoane Acțiune)
    ============================================================================ */
 
 .card {
@@ -102,36 +167,6 @@ h1, h2, h3 {
     border: 2px solid var(--border-color);
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 20px;
-}
-
-/* Bara de accesibilitate de sus */
-.accessibility-bar {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    padding: 12px;
-    background: var(--card-bg);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    width: 100%;
-    justify-content: center;
-}
-
-.a11y-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--primary-color);
-    background: transparent;
-    color: var(--text-color);
-    cursor: pointer;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-.a11y-btn:hover {
-    background: var(--primary-color);
-    color: #ffffff;
 }
 
 /* Căsuța de Login */

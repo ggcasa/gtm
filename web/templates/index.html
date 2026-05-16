@@ -10,12 +10,16 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="accessibility-bar" role="region" aria-label="Opțiuni Accesibilitate">
-            <button class="a11y-btn" onclick="toggleTheme()">Schimbă Temă</button>
-            <button class="a11y-btn" onclick="toggleContrast()">Contrast Ridicat</button>
-            <button class="a11y-btn" onclick="toggleFontSize()">Mărește Textul</button>
-        </div>
+    <div class="a11y-dropdown">
+    <button class="a11y-trigger-btn" onclick="toggleA11yMenu()" aria-label="Setări interfață">
+        ⚙️
+    </button>
+    <div id="a11y-menu-content" class="a11y-menu-content">
+        <button onclick="toggleTheme()">🌓 Schimbă Temă</button>
+        <button onclick="toggleContrast()">👁️ Contrast Ridicat</button>
+        <button onclick="toggleFontSize()">🔍 Mărește Textul</button>
+    </div>
+</div>
 
         <div id="login-screen" class="screen active">
             <div class="login-box">
