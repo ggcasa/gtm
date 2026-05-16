@@ -1,0 +1,85 @@
+/* Stiluri de bază / Temă LIGHT (Default) */
+:root {
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --primary-color: #007acc;
+    --border-color: transparent;
+    --font-scale: 100%; /* Permite mărirea textului */
+}
+
+/* Temă DARK */
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --primary-color: #33a1ff;
+}
+
+/* Mod CONTRAST RIDICAT (Pentru persoanele cu vedere slabă) */
+[data-a11y="high-contrast"] {
+    --bg-color: #000000;
+    --card-bg: #000000;
+    --text-color: #ffffff;
+    --primary-color: #ffff00; /* Galben strident, standard de accesibilitate */
+    --border-color: #ffffff;
+}
+
+/* Mod FONT MĂRIT */
+[data-size="large"] {
+    --font-scale: 125%;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: var(--font-scale);
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    padding: 20px;
+}
+
+/* Adăugăm bordură vizibilă pentru modul High Contrast */
+.card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Stiluri pentru butoanele de control */
+.accessibility-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.a11y-btn {
+    padding: 8px 12px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.a11y-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}

@@ -3,16 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GTM - O aplicație PWA rapidă și responsivă dezvoltată în Go.">
     <title>GTM App</title>
-    <!-- Legătura către Manifestul PWA -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#007acc">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <h1>Bine ai venit în aplicația GTM!</h1>
-    <p> PWA rulat în Go.</p>
+    <div class="app-container">
+        <header>
+            <h1>Bine ai venit în aplicația GTM!</h1>
+            <p>PWA rulat în Go, complet responsiv.</p>
+            <div class="accessibility-bar" role="region" aria-label="Opțiuni Accesibilitate">
+    <button class="a11y-btn" onclick="toggleTheme()">Schimbă Temă (Light/Dark)</button>
+    <button class="a11y-btn" onclick="toggleContrast()">Contrast Ridicat</button>
+    <button class="a11y-btn" onclick="toggleFontSize()">Mărește Textul</button>
+</div>
+        </header>
 
-    <!-- Scriptul de înregistrare PWA -->
+        <main class="dashboard-grid">
+            <div class="card">
+                <h2>Modul Funcțional 1</h2>
+                <p>Acest card se va redimensiona automat în funcție de monitor.</p>
+            </div>
+            <div class="card">
+                <h2>Modul Funcțional 2</h2>
+                <p>Pe mobil vor sta unul sub altul, pe monitor vor sta unul lângă altul.</p>
+            </div>
+            <div class="card">
+                <h2>Modul Funcțional 3</h2>
+                <p>Inclusiv pe ecrane UltraWide layout-ul va rămâne compact și lizibil.</p>
+            </div>
+        </main>
+    </div>
+
     <script src="/static/js/app.js"></script>
 </body>
 </html>
