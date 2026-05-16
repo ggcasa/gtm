@@ -1,305 +1,218 @@
 /* ============================================================================
-   0. MANAGEMENTUL ECRANELOR (Ascundere/Afișare strictă)
+   VARIABLE DE CULOARE ȘI CONFIGURĂRI DE BAZĂ
    ============================================================================ */
-
-/* Ascundem toate ecranele implicit */
-.screen {
-    display: none !important;
-}
-
-/* Afișăm DOAR ecranul care are și clasa 'active' */
-.screen.active {
-    display: block !important;
-}
-
-/* ============================================================================
-   1. CONFIGURARE TEME ȘI VARIABILE (Light, Dark, High-Contrast)
-   ============================================================================ */
-
-/* Temă LIGHT (Implicită) */
 :root {
+    --primary-color: #0056b3;
+    --primary-hover: #004085;
     --bg-color: #f4f7f6;
     --card-bg: #ffffff;
     --text-color: #333333;
-    --primary-color: #007acc;
-    --border-color: transparent;
-    --font-scale: 100%;
+    --border-color: #cccccc;
 }
 
-/* Temă DARK */
 [data-theme="dark"] {
-    --bg-color: #121212;
-    --card-bg: #1e1e1e;
-    --text-color: #e0e0e0;
-    --primary-color: #33a1ff;
-}
-
-/* Mod CONTRAST RIDICAT (Pentru vizibilitate sporită pe teren) */
-[data-a11y="high-contrast"] {
-    --bg-color: #000000;
-    --card-bg: #000000;
+    --primary-color: #375a7f;
+    --primary-hover: #2b4764;
+    --bg-color: #222222;
+    --card-bg: #303030;
     --text-color: #ffffff;
-    --primary-color: #ffff00; /* Galben strident standard */
-    --border-color: #ffffff;
+    --border-color: #444444;
 }
 
-/* Mod FONT MĂRIT */
+[data-a11y="high-contrast"] {
+    --primary-color: #000000;
+    --primary-hover: #333333;
+    --bg-color: #ffffff;
+    --card-bg: #ffffff;
+    --text-color: #000000;
+    --border-color: #000000;
+}
+
 [data-size="large"] {
-    --font-scale: 125%;
+    font-size: 1.25rem;
 }
-
-/* ============================================================================
-   2. RESET ȘI STILURI DE BAZĂ
-   ============================================================================ */
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-html {
-    font-size: var(--font-scale);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
-    padding: 20px;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    position: relative; /* Necesar pentru poziționarea absolută a dropdown-ului */
 }
 
-.app-container {
+.container {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-h1, h2, h3 {
-    margin-bottom: 10px;
+    max-width: 500px;
+    padding: 20px;
 }
 
 /* ============================================================================
-   3. NOUL MENIU PLUTITOR COMPACT (Dropdown Setări ⚙️)
+   MENIUL DROP-DOWN DE ACCESIBILITATE (⚙️) - FIX DREAPTA SUS
    ============================================================================ */
-
-/* Containerul fixat în dreapta sus */
 .a11y-dropdown {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
     z-index: 1000;
 }
 
-/* Butonul rotund de declanșare */
 .a11y-trigger-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: var(--card-bg);
+    background-color: var(--card-bg);
     border: 2px solid var(--primary-color);
     color: var(--text-color);
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    padding: 10px;
+    border-radius: 50%;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    transition: transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.a11y-trigger-btn:hover {
-    transform: scale(1.05);
-}
-
-/* Conținutul meniului (ascuns implicit) */
-.a11y-menu-content {
-    display: none;
+.a11y-content {
+    display: none; /* Implicit ascuns! Se activează adăugând clasa .show din JS */
     position: absolute;
-    top: 50px;
     right: 0;
-    background: var(--card-bg);
+    top: 55px;
+    background-color: var(--card-bg);
     min-width: 180px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     border-radius: 8px;
-    border: 1px solid var(--primary-color);
-    overflow: hidden;
+    border: 1px solid var(--border-color);
+    padding: 10px;
 }
 
-/* Afișarea meniului când are clasa 'show' */
-.a11y-menu-content.show {
-    display: flex;
-    flex-direction: column;
+.a11y-content.show {
+    display: block; /* Afișat doar când dăm click pe rotiță */
 }
 
-/* Butoanele din interiorul dropdown-ului */
-.a11y-menu-content button {
-    background: transparent;
+.a11y-content button {
+    display: block;
+    width: 100%;
+    background: none;
     border: none;
     color: var(--text-color);
-    padding: 12px 16px;
+    padding: 10px;
     text-align: left;
-    width: 100%;
     cursor: pointer;
     font-size: 0.95rem;
-    font-weight: 500;
-    transition: background 0.2s;
+    border-radius: 4px;
 }
 
-.a11y-menu-content button:hover {
-    background: var(--primary-color);
+.a11y-content button:hover {
+    background-color: var(--primary-color);
     color: #ffffff;
 }
 
-/* ============================================================================
-   4. COMPONENTE COMUNE (Carduri, Formulare, Butoane Acțiune)
-   ============================================================================ */
+.a11y-content hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 5px 0;
+}
 
-.card {
-    background: var(--card-bg);
-    padding: 25px;
-    border-radius: 12px;
-    border: 2px solid var(--border-color);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+/* ============================================================================
+   STRUCTURĂ ECRANE ȘI BOXE DE DIALOG
+   ============================================================================ */
+.screen {
+    display: none; /* Ascundem toate ecranele implicit */
+}
+
+.screen.active {
+    display: block; /* Doar ecranul activ se vede */
+}
+
+h1, h2 {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-/* Căsuța de Login */
-.login-box {
-    max-width: 450px;
-    margin: 60px auto;
-    background: var(--card-bg);
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.login-box, .task-card, .dashboard-card {
+    background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    text-align: center;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.login-box input {
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+input[type="text"] {
     width: 100%;
-    padding: 14px;
-    margin: 15px 0 25px 0;
-    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    font-size: 1.1rem;
-    background: var(--card-bg);
+    background-color: var(--card-bg);
     color: var(--text-color);
+    font-size: 1rem;
 }
 
-/* Butoane mari de acțiune (Teren & Login) */
-.btn-action {
+/* BUTOANE PRINCIPALE */
+.btn-login, .btn-action {
     display: block;
     width: 100%;
-    padding: 18px;
-    background: var(--primary-color);
-    color: white;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-.btn-action:hover {
-    opacity: 0.9;
-}
-
-/* ============================================================================
-   5. INTERFAȚA OPERATOR (Teren - Elemente mari și aerisite)
-   ============================================================================ */
-
-.operator-view {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.task-card {
-    background: var(--card-bg);
-    border: 2px solid var(--primary-color);
-    border-radius: 12px;
-    padding: 25px;
-}
-
-.task-card p {
-    margin: 8px 0;
-    font-size: 1.1rem;
-}
-
-/* ============================================================================
-   6. INTERFAȚA MANAGER (Birou - Tabel și Meniu Lateral)
-   ============================================================================ */
-
-.manager-view {
-    width: 100%;
-    margin-top: 20px;
-}
-
-.manager-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.sidebar {
-    background: var(--card-bg);
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-.sidebar h3 {
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
-
-.sidebar p {
-    padding: 8px 0;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-.main-content {
-    flex: 1;
-}
-
-/* Tabel logistic compact */
-.logistic-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-    background: var(--card-bg);
-}
-
-.logistic-table th, .logistic-table td {
     padding: 14px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.logistic-table th {
     background-color: var(--primary-color);
     color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center;
 }
 
-/* Repunem layout-ul pe două coloane doar pe ecrane mari (monitoare de birou) */
-@media (min-width: 768px) {
-    .manager-layout {
-        flex-direction: row;
-    }
-    
-    .sidebar {
-        width: 260px;
-    }
+.btn-login:hover {
+    background-color: var(--primary-hover);
+}
+
+/* PANEL INTERFEȚE */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.btn-logout {
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.user-badge {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* GRILLA MANAGER */
+.manager-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.dashboard-card {
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
 }

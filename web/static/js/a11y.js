@@ -1,46 +1,6 @@
 // ============================================================================
-// GESTIONARE TEME ȘI ACCESIBILITATE
+// 1. TRADUCERI ȘI MODUL MULTILANGUAGE
 // ============================================================================
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-}
-
-function toggleContrast() {
-    const currentA11y = document.documentElement.getAttribute('data-a11y');
-    const newA11y = currentA11y === 'high-contrast' ? 'normal' : 'high-contrast';
-    document.documentElement.setAttribute('data-a11y', newA11y);
-    localStorage.setItem('a11y', newA11y);
-}
-
-function toggleFontSize() {
-    const currentSize = document.documentElement.getAttribute('data-size');
-    const newSize = currentSize === 'large' ? 'normal' : 'large';
-    document.documentElement.setAttribute('data-size', newSize);
-    localStorage.setItem('font-size', newSize);
-}
-
-function toggleA11yMenu() {
-    document.getElementById('a11y-menu-content').classList.toggle('show');
-}
-
-// Închidem meniul dacă utilizatorul dă click în afara lui
-window.addEventListener('click', (event) => {
-    if (!event.target.matches('.a11y-trigger-btn')) {
-        const dropdown = document.getElementById('a11y-menu-content');
-        if (dropdown && dropdown.classList.contains('show')) {
-            dropdown.classList.remove('show');
-        }
-    }
-});
-
-// ============================================================================
-// SUPORT MULTILANGUAGE (i18n)
-// ============================================================================
-
 const translations = {
     ro: {
         login_title: "Autentificare GTM",
@@ -87,3 +47,40 @@ function applyLanguage(lang) {
 function changeLanguage(lang) {
     applyLanguage(lang);
 }
+
+// ============================================================================
+// 2. TEME ȘI CONTRAST (⚙️)
+// ============================================================================
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+function toggleContrast() {
+    const currentA11y = document.documentElement.getAttribute('data-a11y');
+    const newA11y = currentA11y === 'high-contrast' ? 'normal' : 'high-contrast';
+    document.documentElement.setAttribute('data-a11y', newA11y);
+    localStorage.setItem('a11y', newA11y);
+}
+
+function toggleFontSize() {
+    const currentSize = document.documentElement.getAttribute('data-size');
+    const newSize = currentSize === 'large' ? 'normal' : 'large';
+    document.documentElement.setAttribute('data-size', newSize);
+    localStorage.setItem('font-size', newSize);
+}
+
+function toggleA11yMenu() {
+    document.getElementById('a11y-menu-content').classList.toggle('show');
+}
+
+window.addEventListener('click', (event) => {
+    if (!event.target.matches('.a11y-trigger-btn')) {
+        const dropdown = document.getElementById('a11y-menu-content');
+        if (dropdown && dropdown.classList.contains('show')) {
+            dropdown.classList.remove('show');
+        }
+    }
+});

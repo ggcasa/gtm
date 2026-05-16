@@ -35,6 +35,8 @@ func (s *Server) Start() error {
 	// 4. Ruta principală pentru Frontend
 	mux.HandleFunc("/", s.handleIndex)
 
+	mux.HandleFunc("/api/complete", s.handleAPIComplete)
+
 	log.Printf("Serverul gtm a pornit pe http://localhost%s\n", s.listenAddr)
 	return http.ListenAndServe(s.listenAddr, mux)
 }

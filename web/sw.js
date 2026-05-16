@@ -1,52 +1,43 @@
-const CACHE_NAME = 'gtm-v2'; // Schimbăm versiunea în v2 pentru a forța browserul să reîncarce totul curat
+const CACHE_NAME = 'gtm-v4';
 
+// Punem doar fișierele sigure care există 100% în proiectul tău
 const ASSETS_TO_CACHE = [
     '/',
     '/static/css/style.css',
     '/static/js/a11y.js',
     '/static/js/auth.js',
     '/static/js/app.js',
-    '/manifest.json',
-    '/favicon.ico',
-    '/static/icons/icon-192.png',
-    '/static/icons/icon-512.png'
+    '/manifest.json'
 ];
-// 1. Evenimentul de Instalare: Salvăm fișierele în cache-ul browserului
+
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            console.log('SW: Fișierele de bază au fost salvate în cache!');
+            console.log('SW: Se salvează fișierele de bază în cache...');
             return cache.addAll(ASSETS_TO_CACHE);
         })
     );
-    self.skipWaiting(); // Activează noul SW imediat
 });
 
-// 2. Evenimentul de Activare: Ștergem cache-urile vechi dacă updatăm aplicația
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((cache) => {
                     if (cache !== CACHE_NAME) {
-                        console.log('SW: Curățat cache vechi:', cache);
+                        console.log('SW: Se șterge cache-ul vechi:', cache);
                         return caches.delete(cache);
                     }
                 })
             );
         })
     );
-    self.clients.claim();
 });
 
-// 3. Evenimentul de Fetch: Interceptăm cererile de rețea
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-            if (cachedResponse) {
-                return cachedResponse;
-            }
-            return fetch(event.request);
+        caches.match(event.request).then((response) => {
+            return response || fetch(event.request);
         })
     );
 });

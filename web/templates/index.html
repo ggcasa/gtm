@@ -1,93 +1,77 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="ro" data-theme="light" data-a11y="normal" data-size="normal">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="GTM - O aplicație PWA rapidă și responsivă dezvoltată în Go.">
-    <title>GTM App</title>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#007acc">
+    <title>GTM - Parcuri Logistice</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0056b3">
 </head>
 <body>
+
     <div class="a11y-dropdown">
-    <button class="a11y-trigger-btn" onclick="toggleA11yMenu()" aria-label="Setări interfață">
-        ⚙️
-    </button>
-    <div id="a11y-menu-content" class="a11y-menu-content">
-        <button onclick="toggleTheme()">🌓 Schimbă Temă</button>
-        <button onclick="toggleContrast()">👁️ Contrast Ridicat</button>
-        <button onclick="toggleFontSize()">🔍 Mărește Textul</button>
-        <hr style="border: 0; border-top: 1px solid var(--primary-color); opacity: 0.3;">
-<button onclick="changeLanguage('ro')">🇷🇴 Română</button>
-<button onclick="changeLanguage('en')">🇬🇧 English</button>
-</div>
+        <button class="a11y-trigger-btn" onclick="toggleA11yMenu()">⚙️</button>
+        <div id="a11y-menu-content" class="a11y-content">
+            <button onclick="toggleTheme()">🌓 Schimbă Tema</button>
+            <button onclick="toggleContrast()">👁️ Contrast Înalt</button>
+            <button onclick="toggleFontSize()">🔍 Text Mare</button>
+            <hr>
+            <button onclick="changeLanguage('ro')">🇷🇴 Română</button>
+            <button onclick="changeLanguage('en')">🇬🇧 English</button>
+        </div>
+    </div>
 
-</div>
-
+    <div class="container">
+        
         <div id="login-screen" class="screen active">
+            <h1 data-i18n="login_title">Autentificare GTM</h1>
             <div class="login-box">
-<h2 data-i18n="login_title">Autentificare GTM</h2>                <p style="font-size: 0.9rem; color: #666;">Introdu ID-ul (ex: operator_gg) sau Codul de pontaj (manager_yoyoma)</p>
-                
-<label for="username" data-i18n="login_label">Utilizator / Cod Pontaj:</label>                <input type="text" id="username" placeholder="Ex: operator_gg sau manager_yoyoma">
-                
-<button class="btn-action" onclick="handleLogin()" data-i18n="login_btn">Intră în cont</button>            </div>
+                <label for="username" data-i18n="login_label">Utilizator / Cod Pontaj:</label>
+                <input type="text" id="username" placeholder="ex: operator_gg sau manager_1" autocomplete="off">
+                <button class="btn-login" onclick="handleLogin()" data-i18n="login_btn">Intră în cont</button>
+            </div>
         </div>
 
         <div id="operator-screen" class="screen">
-            <header style="margin-bottom: 20px;">
-                <h1>Panou Teren: <span id="op-name"></span></h1>
-                <button class="a11y-btn" onclick="logout()">Ieșire</button>
-            </header>
-            <div class="operator-view">
-                <div class="task-card">
-<h3 data-i18n="task_alert">⚠️ Task Nou de la Birou</h3>  
-                    <p><strong>Locație:</strong> Zona C - Raftul 14</p>
-                    <p><strong>Acțiune:</strong> Pregătire palet descarcare #4402</p>
-                </div>
-                <button class="btn-action" style="background-color: #28a745;">MARCHEAZĂ CA FINALIZAT</button>
+            <div class="header-section">
+                <h2><span data-i18n="panel_field">Panou Teren:</span> <span id="op-name" class="user-badge"></span></h2>
+                <button class="btn-logout" onclick="logout()" data-i18n="logout">Ieșire</button>
             </div>
+
+            <div class="task-card">
+                </div>
         </div>
 
         <div id="manager-screen" class="screen">
-            <header style="margin-bottom: 20px;">
-                <h1>Consolă Management: <span id="mgr-name"></span></h1>
-                <button class="a11y-btn" onclick="logout()">Ieșire</button>
-            </header>
-            <div class="manager-layout">
-                <aside class="sidebar">
-                    <h3>Meniu</h3>
-                    <p style="margin-top:10px;">📊 Alocare Taskuri</p>
-                    <p>🚚 Monitorizare Flotă</p>
-                    <p>⏱️ Pontaj Operatori</p>
-                </aside>
-                <main class="main-content">
-                    <div class="card">
-                        <h2>Activitate în Timp Real - Parc Logistic</h2>
-                        <table class="logistic-table">
-                            <thead>
-                                <tr>
-                                    <th>Operator</th>
-                                    <th>Locație</th>
-                                    <th>Status Task</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>operator_gg</td>
-                                    <td>Zona C - Raft 14</td>
-                                    <td><span style="color: #ffc107; font-weight: bold;">În lucru</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
+            <div class="header-section">
+                <h2><span data-i18n="panel_manager">Consolă Management:</span> <span id="mgr-name" class="user-badge"></span></h2>
+                <button class="btn-logout" onclick="logout()" data-i18n="logout">Ieșire</button>
+            </div>
+
+            <div class="manager-grid">
+                <div class="dashboard-card">
+                    <h3 data-i18n="menu_tasks">📊 Alocare Taskuri</h3>
+                    <p>Panou administrativ pentru trimiterea ordinelor în teren.</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 data-i18n="menu_fleet">🚚 Monitorizare Flotă</h3>
+                    <p>Starea rampelor de descărcare și poziția camioanelor.</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 data-i18n="menu_clock">⏱️ Pontaj Operatori</h3>
+                    <p>Evidența activității logistice în timp real.</p>
+                </div>
             </div>
         </div>
+
     </div>
-<script src="/static/js/a11y.js"></script>
+
+    <script src="/static/js/a11y.js"></script>
+    
     <script src="/static/js/auth.js"></script>
+    
     <script src="/static/js/app.js"></script>
-</body>
+
 </body>
 </html>
