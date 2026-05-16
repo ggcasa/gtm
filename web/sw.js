@@ -1,0 +1,1 @@
+console.log("Service Worker-ul gtm a fost încărcat!");
