@@ -30,6 +30,20 @@ func main() {
 		http.ServeFile(w, r, "./web/templates/index.html")
 	})
 
+	// Ruta API care returnează date dinamice în format JSON
+	http.HandleFunc("/api/stats", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		// Generăm un JSON simplu direct ca text pentru acest prototip
+		jsonResponse := `{
+        "modul1": "Activ (Utilizare CPU: 12%)",
+        "modul2": "Conectat la DB (0.5ms)",
+        "modul3": "Toate sistemele sunt online"
+    }`
+
+		w.Write([]byte(jsonResponse))
+	})
+
 	log.Println("Serverul gtm a pornit pe http://localhost:8080")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

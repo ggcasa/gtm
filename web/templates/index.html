@@ -11,30 +11,74 @@
 </head>
 <body>
     <div class="app-container">
-        <header>
-            <h1>Bine ai venit în aplicația GTM!</h1>
-            <p>PWA rulat în Go, complet responsiv.</p>
-            <div class="accessibility-bar" role="region" aria-label="Opțiuni Accesibilitate">
-    <button class="a11y-btn" onclick="toggleTheme()">Schimbă Temă (Light/Dark)</button>
-    <button class="a11y-btn" onclick="toggleContrast()">Contrast Ridicat</button>
-    <button class="a11y-btn" onclick="toggleFontSize()">Mărește Textul</button>
-</div>
-        </header>
+        <div class="accessibility-bar" role="region" aria-label="Opțiuni Accesibilitate">
+            <button class="a11y-btn" onclick="toggleTheme()">Schimbă Temă</button>
+            <button class="a11y-btn" onclick="toggleContrast()">Contrast Ridicat</button>
+            <button class="a11y-btn" onclick="toggleFontSize()">Mărește Textul</button>
+        </div>
 
-        <main class="dashboard-grid">
-            <div class="card">
-                <h2>Modul Funcțional 1</h2>
-                <p>Acest card se va redimensiona automat în funcție de monitor.</p>
+        <div id="login-screen" class="screen active">
+            <div class="login-box">
+                <h2>Autentificare GTM</h2>
+                <p style="font-size: 0.9rem; color: #666;">Introdu ID-ul (ex: operator_gg) sau Codul de pontaj (manager_yoyoma)</p>
+                
+                <label for="username">Utilizator / Cod Pontaj:</label>
+                <input type="text" id="username" placeholder="Ex: operator_gg sau manager_yoyoma">
+                
+                <button class="btn-action" onclick="handleLogin()">Intră în cont</button>
             </div>
-            <div class="card">
-                <h2>Modul Funcțional 2</h2>
-                <p>Pe mobil vor sta unul sub altul, pe monitor vor sta unul lângă altul.</p>
+        </div>
+
+        <div id="operator-screen" class="screen">
+            <header style="margin-bottom: 20px;">
+                <h1>Panou Teren: <span id="op-name"></span></h1>
+                <button class="a11y-btn" onclick="logout()">Ieșire</button>
+            </header>
+            <div class="operator-view">
+                <div class="task-card">
+                    <h3>⚠️ Task Nou de la Birou</h3>
+                    <p><strong>Locație:</strong> Zona C - Raftul 14</p>
+                    <p><strong>Acțiune:</strong> Pregătire palet descarcare #4402</p>
+                </div>
+                <button class="btn-action" style="background-color: #28a745;">MARCHEAZĂ CA FINALIZAT</button>
             </div>
-            <div class="card">
-                <h2>Modul Funcțional 3</h2>
-                <p>Inclusiv pe ecrane UltraWide layout-ul va rămâne compact și lizibil.</p>
+        </div>
+
+        <div id="manager-screen" class="screen">
+            <header style="margin-bottom: 20px;">
+                <h1>Consolă Management: <span id="mgr-name"></span></h1>
+                <button class="a11y-btn" onclick="logout()">Ieșire</button>
+            </header>
+            <div class="manager-layout">
+                <aside class="sidebar">
+                    <h3>Meniu</h3>
+                    <p style="margin-top:10px;">📊 Alocare Taskuri</p>
+                    <p>🚚 Monitorizare Flotă</p>
+                    <p>⏱️ Pontaj Operatori</p>
+                </aside>
+                <main class="main-content">
+                    <div class="card">
+                        <h2>Activitate în Timp Real - Parc Logistic</h2>
+                        <table class="logistic-table">
+                            <thead>
+                                <tr>
+                                    <th>Operator</th>
+                                    <th>Locație</th>
+                                    <th>Status Task</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>operator_gg</td>
+                                    <td>Zona C - Raft 14</td>
+                                    <td><span style="color: #ffc107; font-weight: bold;">În lucru</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
             </div>
-        </main>
+        </div>
     </div>
 
     <script src="/static/js/app.js"></script>

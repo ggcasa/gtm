@@ -37,3 +37,52 @@ document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('a11y')) document.documentElement.setAttribute('data-a11y', localStorage.getItem('a11y'));
     if (localStorage.getItem('font-size')) document.documentElement.setAttribute('data-size', localStorage.getItem('font-size'));
 });
+
+function loadDashboardData() {
+    fetch('/api/stats')
+        .then(response => response.json())
+        .then(data => {
+            // Căutăm paragrafele din interiorul cardurilor și le punem textul din Go
+            const cards = document.querySelectorAll('.card p');
+            if(cards.length >= 3) {
+                cards[0].textContent = data.modul1;
+                cards[1].textContent = data.modul2;
+                cards[2].textContent = data.modul3;
+            }
+        })
+        .catch(err => console.error("Eroare la încărcarea datelor din Go:", err));
+}
+
+// Rulăm funcția automat când se încarcă pagina
+document.addEventListener('DOMContentLoaded', loadDashboardData);
+
+function handleLogin() {
+    const userVal = document.getElementById('username').value.trim();
+    
+    if (!userVal) {
+        alert("Te rugăm să introduci codul sau numele de utilizator.");
+        return;
+    }
+
+    // Ascundem ecranul de login
+    document.getElementById('login-screen').classList.remove('active');
+
+    // Regula de rutare simplă bazată pe prefix
+    if (userVal.startsWith('manager')) {
+        // Activăm ecranul de manager
+        document.getElementById('manager-screen').classList.add('active');
+        document.getElementById('mgr-name').textContent = userVal;
+    } else {
+        // Implicit, orice altceva (ex: operator_gg) primește interfața de teren
+        document.getElementById('operator-screen').classList.add('active');
+        document.getElementById('op-name').textContent = userVal;
+    }
+}
+
+function logout() {
+    // Resetăm ecranele înapoi la login
+    document.getElementById('operator-screen').classList.remove('active');
+    document.getElementById('manager-screen').classList.remove('active');
+    document.getElementById('login-screen').classList.add('active');
+    document.getElementById('username').value = '';
+}
