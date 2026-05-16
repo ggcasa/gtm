@@ -53,6 +53,8 @@ body {
     width: 100%;
     max-width: 500px;
     padding: 20px;
+    /* Adăugăm padding superior mai mare pe mobil pentru a împinge conținutul sub nivelul rotiței fixe */
+    padding-top: 80px; 
 }
 
 /* ============================================================================
@@ -178,12 +180,14 @@ input[type="text"] {
     background-color: var(--primary-hover);
 }
 
-/* PANEL INTERFEȚE */
 .header-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
+    width: 100%;
+    /* Lăsăm spațiu în siguranță ca butonul roșu să nu poată atinge fizic zona rotiței fixed */
+    padding-right: 10px; 
 }
 
 .btn-logout {

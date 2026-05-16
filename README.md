@@ -1,28 +1,3 @@
-# GTM - Tasks Management
-
-[RO] Aplicație PWA (Progressive Web App) modulară destinată managementului task-urilor și monitorizării flotei în parcurile logistice. Proiectul folosește un backend robust scris în Go și un frontend responsive cu suport offline și control al accesului bazat pe roluri (RBAC).
-
-[EN] A modular PWA (Progressive Web App) designed for task management and fleet monitoring in logistics parks. The project features a robust Go backend and a responsive frontend with offline support and Role-Based Access Control (RBAC).
-
----
-
-## 🚀 Tehnologii Utilizate / Technologies Used
-
-- **Backend:** Go (Golang) 1.22+ 
-  - [RO] Arhitectură modulară, `sync.RWMutex` pentru concurență în RAM.
-  - [EN] Modular architecture, `sync.RWMutex` for safe memory concurrency in RAM.
-- **Frontend:** HTML5, CSS3
-  - [RO] Layout-uri fluide și Media Queries pentru optimizare mobilă strictă.
-  - [EN] Fluid layouts and Media Queries for strict mobile responsiveness.
-- **PWA / Service Worker:**
-  - [RO] Strategii de cache optimizate care ignoră intenționat cererile de tip POST.
-  - [EN] Optimized caching strategies that explicitly bypass POST network requests.
-
----
-
-## 📂 Structura Proiectului / Project Structure
-
-```text
 ├── cmd
 │   └── gtm
 │       └── main.go         # [RO] Punctul de intrare / Pornește serverul
@@ -38,8 +13,8 @@
 └── web
     ├── manifest.json       # [RO] Metadata pentru instalarea ca aplicație PWA
     │                       # [EN] Installation metadata for PWA configuration
-    ├── sw.js               # [RO] Service Worker pentru funcționare offline
-    │                       # [EN] Service Worker handling offline lifecycle
+    ├── sw.js               # [RO] Service Worker pentru funcționare offline (include noile scripturi)
+    │                       # [EN] Service Worker handling offline lifecycle (caches new scripts)
     ├── static
     │   ├── css
     │   │   └── style.css   # [RO] Stiluri fluide, teme vizuale și Mobile Query
@@ -47,10 +22,16 @@
     │   └── js
     │       ├── a11y.js     # [RO] Managementul accesibilității și traduceri limbi
     │       │               # [EN] Accessibility management and multi-language logic
-    │       ├── app.js      # [RO] Orchestratorul PWA și inițializarea DOM-ului
-    │       │               # [EN] PWA orchestrator and core DOM initialization
-    │       └── auth.js     # [RO] Gestionarea sesiunilor persistente și rutarea ecrnelor
-    │                       # [EN] Persistent session management and screen routing
+    │       ├── api.js      # [RO] Stratul de Rețea / Cereri API izolate către backend-ul Go
+    │       │               # [EN] Network Layer / Isolated API requests to the Go backend
+    │       ├── app.js      # [RO] Orchestratorul principal / Inițializarea și dirijarea fluxului
+    │       │               # [EN] Main Orchestrator / Initialization and top-level flow control
+    │       ├── auth.js     # [RO] Sesiuni persistente și gestionarea ecranelor de login/logout
+    │       │               # [EN] Persistent session management and login/logout screen routing
+    │       ├── operator-tools.js # [RO] Uneltele Operatorului / Dublă confirmare securizată și timere
+    │       │               # [EN] Operator Tools / Secure double-confirmation and field timers
+    │       └── renderers.js # [RO] Stratul de Interfață / Șabloane și generare HTML pur dinamic
+    │                       # [EN] UI Renderer Layer / Templates and dynamic pure-HTML rendering
     └── templates
-        └── index.html      # [RO] Structura HTML unificată a aplicației
-                            # [EN] Unified single-page HTML layout
+        └── index.html      # [RO] Structura HTML unificată a aplicației (include scripturile ordonate)
+                            # [EN] Unified single-page HTML layout (includes scripts ordered)

@@ -7,6 +7,7 @@ const ASSETS_TO_CACHE = [
     '/static/js/a11y.js',
     '/static/js/auth.js',
     '/static/js/operator-tools.js',
+    '/static/js/renderers.js',
     '/static/js/app.js',
     '/manifest.json'
 ];
