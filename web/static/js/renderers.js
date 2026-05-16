@@ -32,3 +32,14 @@ const GTM_Render = {
         return `<div class="no-tasks"><b>Nu ai task-uri active în acest moment.</b></div>`;
     }
 };
+
+// Extindere în GTM_Render pentru ecranele de management
+GTM_Render.managerFleetCard = (rampa) => {
+    const statusColor = rampa.ocupata ? '#d9383a' : '#28a745';
+    return `
+        <div class="fleet-status-box" style="border-left: 5px solid ${statusColor}; padding: 10px; margin-bottom: 10px;">
+            <h4>Rampa #${rampa.id}</h4>
+            <p>Status: <strong>${rampa.ocupata ? 'Ocupată - ' + rampa.camion : 'Liberă'}</strong></p>
+        </div>
+    `;
+};
