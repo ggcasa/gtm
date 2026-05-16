@@ -17,7 +17,7 @@ func NewServer(addr string) *Server {
 	}
 }
 
-// Start pornește serverul și înregistrează toate rutele (API și Frontend)
+// Start pornește serverul și înregistrează toate rutele în multiplexorul izolat
 func (s *Server) Start() error {
 	mux := http.NewServeMux()
 
@@ -29,16 +29,17 @@ func (s *Server) Start() error {
 	mux.HandleFunc("/sw.js", s.handleServiceWorker)
 	mux.HandleFunc("/manifest.json", s.handleManifest)
 
-	// 3. Rutele pentru API (Logica de backend din parcul logistic)
+	// 3. Rutele pentru API (Logica de business)
+	mux.HandleFunc("/api/login", s.handleAPILogin)
 	mux.HandleFunc("/api/stats", s.handleAPIStats)
-
-	// 4. Ruta principală pentru Frontend
-	mux.HandleFunc("/", s.handleIndex)
-
 	mux.HandleFunc("/api/complete", s.handleAPIComplete)
 
-	// În interiorul funcției (s *Server) Start() error:
-	mux.HandleFunc("/api/login", s.handleAPILogin) // <-- Adaugă această linie sub celelalte API-uri
+	// Rutele adăugate corect pe multiplexorul local al serverului
+	mux.HandleFunc("/api/manager/dashboard", s.handleManagerDashboard)
+	mux.HandleFunc("/api/manager/assign-task", s.handleAssignTask)
+
+	// 4. Ruta principală pentru interfața Frontend
+	mux.HandleFunc("/", s.handleIndex)
 
 	log.Printf("Serverul gtm a pornit pe http://localhost%s\n", s.listenAddr)
 	return http.ListenAndServe(s.listenAddr, mux)

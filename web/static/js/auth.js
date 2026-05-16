@@ -29,9 +29,14 @@ function routeUser(username, role) {
     document.getElementById('operator-screen').classList.remove('active');
     document.getElementById('manager-screen').classList.remove('active');
 
-    if (role === 'manager' || username.toLowerCase().startsWith('manager')) {
+if (role === 'manager' || username.toLowerCase().startsWith('manager')) {
         document.getElementById('manager-screen').classList.add('active');
         document.getElementById('mgr-name').textContent = username;
+        
+        // Pornim încărcarea componentelor dinamice pentru manager
+        if (typeof GTM_Manager !== 'undefined') {
+            GTM_Manager.loadDashboard();
+        }
     } else {
         document.getElementById('operator-screen').classList.add('active');
         document.getElementById('op-name').textContent = username;
