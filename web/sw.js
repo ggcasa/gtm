@@ -1,16 +1,16 @@
-const CACHE_NAME = 'gtm-v1';
+const CACHE_NAME = 'gtm-v2'; // Schimbăm versiunea în v2 pentru a forța browserul să reîncarce totul curat
 
-// Fișierele esențiale pe care le salvăm pentru a rula offline
 const ASSETS_TO_CACHE = [
     '/',
     '/static/css/style.css',
+    '/static/js/a11y.js',
+    '/static/js/auth.js',
     '/static/js/app.js',
     '/manifest.json',
     '/favicon.ico',
     '/static/icons/icon-192.png',
     '/static/icons/icon-512.png'
 ];
-
 // 1. Evenimentul de Instalare: Salvăm fișierele în cache-ul browserului
 self.addEventListener('install', (event) => {
     event.waitUntil(
