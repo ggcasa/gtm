@@ -11,102 +11,75 @@
 </head>
 <body>
     <div class="a11y-dropdown">
-    <button class="a11y-trigger-btn" onclick="toggleA11yMenu()" aria-label="Setări interfață">
-        ⚙️
-    </button>
-    <div id="a11y-menu-content" class="a11y-menu-content">
-        <button onclick="toggleTheme()">🌓 Schimbă Temă</button>
-        <button onclick="toggleContrast()">👁️ Contrast Ridicat</button>
-        <button onclick="toggleFontSize()">🔍 Mărește Textul</button>
-        <hr style="border: 0; border-top: 1px solid var(--primary-color); opacity: 0.3;">
-<button onclick="changeLanguage('ro')">🇷🇴 Română</button>
-<button onclick="changeLanguage('en')">🇬🇧 English</button>
-</div>
-
-</div>
-=======
         <button class="a11y-trigger-btn" onclick="toggleA11yMenu()">⚙️</button>
-            <div id="a11y-menu-content" class="a11y-content">
-                <button onclick="toggleTheme()">🌓 Schimbă Tema</button>
-                <button onclick="toggleContrast()">👁️ Contrast Înalt</button>
-                <button onclick="toggleFontSize()">🔍 Text Mare</button>
-                <hr>
-                <button onclick="changeLanguage('ro')">🇷🇴 Română</button>
-                <button onclick="changeLanguage('en')">🇬🇧 English</button>
-                <button onclick="changeLanguage('pt')">🇵🇹 Português</button>
-                <button onclick="changeLanguage('es')">🇪🇸 Español</button>
-                <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
-                <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
-                <button onclick="changeLanguage('ua')">🇺🇦 Українська</button>
-                <button onclick="changeLanguage('pl')">🇵🇱 Polski</button>
-                <button onclick="changeLanguage('ar')">🇸🇦 العربية</button>
-                <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
-                <button onclick="changeLanguage('pa')">🇮🇳 ਪੰਜਾਬੀ</button>
-            </div>  
+        <div id="a11y-menu-content" class="a11y-content">
+            <button onclick="toggleTheme()">🌓 Schimbă Tema</button>
+            <button onclick="toggleContrast()">👁️ Contrast Înalt</button>
+            <button onclick="toggleFontSize()">🔍 Text Mare</button>
+            <hr>
+            <button onclick="changeLanguage('ro')">🇷🇴 Română</button>
+            <button onclick="changeLanguage('en')">🇬🇧 English</button>
+            <button onclick="changeLanguage('pt')">🇵🇹 Português</button>
+            <button onclick="changeLanguage('es')">🇪🇸 Español</button>
+            <button onclick="changeLanguage('fr')">🇫🇷 Français</button>
+            <button onclick="changeLanguage('de')">🇩🇪 Deutsch</button>
+            <button onclick="changeLanguage('ua')">🇺🇦 Українська</button>
+            <button onclick="changeLanguage('pl')">🇵🇱 Polski</button>
+            <button onclick="changeLanguage('ar')">🇸🇦 العربية</button>
+            <button onclick="changeLanguage('zh')">🇨🇳 中文</button>
+            <button onclick="changeLanguage('pa')">🇮🇳 ਪੰਜਾਬੀ</button>
+        </div>  
     </div>
->>>>>>> Stashed changes
 
+    <div class="container">
         <div id="login-screen" class="screen active">
             <div class="login-box">
-<h2 data-i18n="login_title">Autentificare GTM</h2>                <p style="font-size: 0.9rem; color: #666;">Introdu ID-ul (ex: operator_gg) sau Codul de pontaj (manager_yoyoma)</p>
-                
-<label for="username" data-i18n="login_label">Utilizator / Cod Pontaj:</label>                <input type="text" id="username" placeholder="Ex: operator_gg sau manager_yoyoma">
-                
-<button class="btn-action" onclick="handleLogin()" data-i18n="login_btn">Intră în cont</button>            </div>
+                <h2 data-i18n="login_title">Autentificare GTM</h2>
+                <p style="font-size: 0.9rem; color: #666;">Introdu ID-ul (ex: operator_gg) sau Codul de pontaj (manager_yoyoma)</p>
+                <label for="username" data-i18n="login_label">Utilizator / Cod Pontaj:</label>
+                <input type="text" id="username" placeholder="Ex: operator_gg sau manager_yoyoma">
+                <button class="btn-action" onclick="handleLogin()" data-i18n="login_btn">Intră în cont</button>
+            </div>
         </div>
 
         <div id="operator-screen" class="screen">
             <header style="margin-bottom: 20px;">
                 <h1>Panou Teren: <span id="op-name"></span></h1>
-                <button class="a11y-btn" onclick="logout()">Ieșire</button>
+                <button class="btn-logout" onclick="logout()">Ieșire</button>
             </header>
             <div class="operator-view">
-                <div class="task-card">
-<h3 data-i18n="task_alert">⚠️ Task Nou de la Birou</h3>  
-                    <p><strong>Locație:</strong> Zona C - Raftul 14</p>
-                    <p><strong>Acțiune:</strong> Pregătire palet descarcare #4402</p>
-                </div>
-                <button class="btn-action" style="background-color: #28a745;">MARCHEAZĂ CA FINALIZAT</button>
+                <div id="tasks-container">
+                    </div>
             </div>
         </div>
 
         <div id="manager-screen" class="screen">
-            <header style="margin-bottom: 20px;">
-                <h1>Consolă Management: <span id="mgr-name"></span></h1>
-                <button class="a11y-btn" onclick="logout()">Ieșire</button>
-            </header>
-            <div class="manager-layout">
-                <aside class="sidebar">
-                    <h3>Meniu</h3>
-                    <p style="margin-top:10px;">📊 Alocare Taskuri</p>
-                    <p>🚚 Monitorizare Flotă</p>
-                    <p>⏱️ Pontaj Operatori</p>
-                </aside>
-                <main class="main-content">
-                    <div class="card">
-                        <h2>Activitate în Timp Real - Parc Logistic</h2>
-                        <table class="logistic-table">
-                            <thead>
-                                <tr>
-                                    <th>Operator</th>
-                                    <th>Locație</th>
-                                    <th>Status Task</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>operator_gg</td>
-                                    <td>Zona C - Raft 14</td>
-                                    <td><span style="color: #ffc107; font-weight: bold;">În lucru</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
+            <div class="header-section">
+                <h2><span data-i18n="panel_manager">Consolă Management:</span> <span id="mgr-name" class="user-badge"></span></h2>
+                <button class="btn-logout" onclick="logout()" data-i18n="logout">Ieșire</button>
+            </div>
+
+            <div class="manager-grid">
+                <div class="dashboard-card" style="cursor: default;">
+                    <h3 data-i18n="menu_fleet" style="margin-bottom: 15px;">🚚 Monitorizare Flotă</h3>
+                    <div id="manager-fleet-container">
+                        </div>
+                </div>
+
+                <div class="dashboard-card" style="cursor: default;">
+                    <h3 data-i18n="menu_tasks" style="margin-bottom: 15px;">📊 Alocare Taskuri</h3>
+                    <div id="manager-allocation-container">
+                        </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <script src="/static/js/a11y.js"></script>
+    <script src="/static/js/renderers.js"></script>
+    <script src="/static/js/operator-tools.js"></script>
+    <script src="/static/js/manager-tools.js"></script>
+    <script src="/static/js/auth.js"></script>
     <script src="/static/js/app.js"></script>
 </body>
 </html>
